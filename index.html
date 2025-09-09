@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anna & Mark — Wedding</title>
+  <meta name="description" content="Весільний лендинг: герой-секція, меню, програма, галерея, локація, RSVP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ---------------------- */
+    /* Base / Reset           */
+    /* ---------------------- */
+    :root{
+      --bg: #fffaf5;
+      --text: #1f1f1f;
+      --muted: #6b6b6b;
+      --brand: #e07a5f;       /* кораловий */
+      --brand-600: #cc6b53;
+      --brand-700: #b65e49;
+      --accent: #f4c97c;      /* пісочний */
+      --cream: #fff3df;
+      --surface: #ffffff;
+      --card: #fff;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 16px;
+      --container: 1120px; /* зміниться на брейкпоінтах */
+      --header-h: 64px;
+    }
+
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    img{ max-width: 100%; display: block; }
+    a{ color: inherit; text-decoration: none; }
+    button{ font: inherit; }
+
+    .container{ width: min(92vw, var(--container)); margin-inline: auto; }
+
+    /* Focus styles for a11y */
+    :focus-visible{ outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+
+    /* ---------------------- */
+    /* Header / Nav           */
+    /* ---------------------- */
+    .site-header{ position: sticky; top:0; z-index: 50; background: #fff7ec; backdrop-filter: blur(6px); border-bottom: 1px solid rgba(0,0,0,.06); height: var(--header-h); }
+    .site-header .inner{ height: var(--header-h); display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+
+    .logo{ display:flex; align-items:center; gap:10px; font-weight: 700; letter-spacing:.3px; }
+    .logo__mark{ width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background: radial-gradient(80% 80% at 30% 20%, var(--accent), #ffd9a1 60%, #fff 100%); box-shadow: var(--shadow); }
+    .logo__mark svg{ width:18px; height:18px; }
+    .logo__text{ font-family: "Playfair Display", serif; font-size: 18px; }
+    .logo__text span{ color: var(--brand); }
+
+    .nav{ display:none; align-items:center; gap: 22px; }
+    .nav a{ color: #2b2b2b; font-weight: 500; opacity:.9; }
+    .nav a:hover{ color: var(--brand-700); }
+    .nav .btn{ padding:10px 16px; border-radius: 999px; background: var(--brand); color:#fff; box-shadow: var(--shadow); }
+    .nav .btn:hover{ background: var(--brand-600); }
+
+    .burger{ display:inline-grid; place-items:center; width:42px; height:42px; border-radius:10px; border:1px solid rgba(0,0,0,.08); background:#fff; box-shadow: var(--shadow); }
+    .burger-lines{ position: relative; width:22px; height:14px; }
+    .burger-lines span{ position:absolute; left:0; right:0; height:2px; background:#111; border-radius:2px; transition: transform .25s ease, opacity .25s ease, top .25s ease; }
+    .burger-lines span:nth-child(1){ top:0; }
+    .burger-lines span:nth-child(2){ top:6px; }
+    .burger-lines span:nth-child(3){ top:12px; }
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(1){ top:6px; transform: rotate(45deg); }
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(2){ opacity:0; }
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(3){ top:6px; transform: rotate(-45deg); }
+
+    /* Mobile menu panel */
+    .mobile-panel{ position: fixed; inset: 0 0 auto 0; top: var(--header-h); background:#fff; height: calc(100dvh - var(--header-h)); translate: 0 -8px; opacity:0; pointer-events:none; transition: opacity .2s ease, translate .2s ease; padding: 20px; z-index: 40; border-top:1px solid rgba(0,0,0,.06); }
+    .mobile-panel.open{ opacity:1; translate: 0 0; pointer-events:auto; }
+    .mobile-panel a{ display:block; padding:14px 12px; border-radius:12px; font-weight:600; color:#2c2c2c; }
+    .mobile-panel a:hover{ background:#faf3ea; }
+    .mobile-panel .cta{ margin-top: 12px; background: var(--brand); color:#fff; text-align:center; }
+
+    /* ---------------------- */
+    /* Hero                   */
+    /* ---------------------- */
+    .hero{ position: relative; min-height: calc(100dvh - var(--header-h)); display:grid; place-items:center; overflow:hidden; }
+    .hero__bg{ position:absolute; inset:0; background:
+      radial-gradient(1200px 400px at 50% -200px, var(--accent), transparent 60%),
+      url('https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2100&auto=format&fit=crop') center/cover no-repeat; filter: saturate(1.02); }
+    .hero__veil{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(255,255,255,.65) 0%, rgba(255,255,255,.35) 40%, rgba(255,255,255,.15) 100%); }
+
+    .hero .container{ position: relative; z-index: 2; }
+    .hero__card{ background: rgba(255,255,255,.82); box-shadow: var(--shadow); border-radius: 24px; padding: 28px; text-align:center; backdrop-filter: blur(6px); }
+    .eyebrow{ font-weight:600; color: var(--brand-700); letter-spacing:.08em; text-transform: uppercase; font-size: 12px; }
+    .hero__title{ font-family: "Playfair Display", serif; font-size: clamp(32px, 7vw, 56px); line-height: 1.1; margin: 6px 0 10px; }
+    .hero__meta{ color: var(--muted); font-weight:500; }
+    .hero__ctas{ margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius: 999px; border: 1px solid rgba(0,0,0,.08); background:#fff; font-weight:600; box-shadow: var(--shadow); }
+    .btn--primary{ background: var(--brand); color:#fff; border-color: transparent; }
+    .btn--primary:hover{ background: var(--brand-600); }
+
+    .hero__avatar-wrap{ margin-top:18px; display:flex; justify-content:center; gap:16px; }
+    .avatar{ display:grid; place-items:center; width:64px; aspect-ratio:1; border-radius:50%; border:3px solid #fff; box-shadow: var(--shadow); overflow:hidden; }
+
+    .scroll-indicator{ position:absolute; bottom: 18px; left:50%; translate:-50% 0; font-size:12px; color:#444; display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .scroll-indicator svg{ width:20px; height:20px; animation: bounce 1.6s infinite; }
+    @keyframes bounce{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(4px) }}
+
+    /* ---------------------- */
+    /* Sections               */
+    /* ---------------------- */
+    section{ padding: 56px 0; }
+    .section-title{ font-family: "Playfair Display", serif; font-size: clamp(24px, 5vw, 36px); margin-bottom: 12px; }
+    .section-lead{ color: var(--muted); max-width: 60ch; }
+
+    /* About */
+    .about{ background: #fff; }
+    .about-grid{ margin-top: 24px; display:grid; gap:16px; grid-template-columns: 1fr; }
+    .card{ background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden; }
+    .card__media{ aspect-ratio: 16/10; background:#eee; }
+    .card__body{ padding: 16px; }
+    .chip{ display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px; background:#fff4eb; color: var(--brand-700); font-weight:600; }
+
+    /* Gallery */
+    .gallery-grid{ margin-top: 20px; display:grid; gap:10px; grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid a{ border-radius:12px; overflow:hidden; box-shadow: var(--shadow); }
+
+    /* Schedule */
+    .timeline{ margin-top: 20px; display:grid; gap:14px; }
+    .step{ display:grid; grid-template-columns: 44px 1fr; align-items:center; gap:12px; padding:14px; background:#fff; border-radius: 14px; box-shadow: var(--shadow); }
+    .step__icon{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:#fff1e0; }
+    .step__time{ font-weight:700; }
+    .step__title{ font-weight:700; }
+    .step__desc{ color: var(--muted); }
+
+    /* Location */
+    .location{ background: #fff; }
+    .map{ width:100%; height: 320px; border:0; border-radius: 16px; box-shadow: var(--shadow); }
+
+    /* Footer */
+    footer{ background:#1f1b18; color:#fff; padding: 36px 0 24px; }
+    .footer-grid{ display:grid; gap:20px; grid-template-columns: 1fr; }
+    .footer-col h4{ margin:0 0 8px; font-size:16px; }
+    .socials{ display:flex; gap:10px; }
+    .socials a{ width:36px; height:36px; display:grid; place-items:center; border-radius:10px; background:#332c27; }
+    .policy{ margin-top: 20px; font-size: 12px; color:#cfcfcf; }
+
+    /* Back to top */
+    .to-top{ position: fixed; right: 16px; bottom: 16px; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:#fff; border:1px solid rgba(0,0,0,.08); box-shadow: var(--shadow); opacity:0; pointer-events:none; transition: opacity .2s; }
+    .to-top.show{ opacity:1; pointer-events:auto; }
+
+    /* ---------------------- */
+    /* Breakpoints (mobile-first) */
+    /* 481px — таблетки */
+    @media (min-width: 481px){
+      .about-grid{ grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid{ grid-template-columns: repeat(3, 1fr); }
+      .timeline{ grid-template-columns: repeat(2, 1fr); }
+      .map{ height: 360px; }
+    }
+    /* 769px — ноутбуки */
+    @media (min-width: 769px){
+      :root{ --container: 1160px; --header-h: 72px; }
+      .nav{ display:flex; }
+      .burger{ display:none; }
+      .hero__card{ padding: 40px 48px; }
+      .hero__avatar-wrap{ gap:22px; }
+      .about-grid{ grid-template-columns: repeat(3, 1fr); }
+      .gallery-grid{ grid-template-columns: repeat(4, 1fr); }
+      .timeline{ grid-template-columns: repeat(4, 1fr); }
+      .map{ height: 420px; }
+      .footer-grid{ grid-template-columns: 1.2fr .8fr .8fr; }
+    }
+    /* 1025px — десктопи */
+    @media (min-width: 1025px){
+      .hero{ min-height: 88vh; }
+      .hero__bg{ background:
+        radial-gradient(1400px 420px at 50% -240px, var(--accent), transparent 60%),
+        url('https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2100&auto=format&fit=crop') center/cover no-repeat; }
+    }
+    /* 1201px+ — дуже великі */
+    @media (min-width: 1201px){
+      :root{ --container: 1240px; }
+      .hero__title{ font-size: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="top">
+    <div class="container inner">
+      <a class="logo" href="#home" aria-label="На головну">
+        <span class="logo__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12c0-3.314 2.239-6 5-6s5 2.686 5 6-2.239 6-5 6-5-2.686-5-6Z" stroke="#b65e49" stroke-width="1.5"/><path d="M12 6c0-1.657 1.343-3 3-3 1.657 0 3 1.343 3 3 0 3-6 9-6 9s-6-6-6-9c0-1.657 1.343-3 3-3 1.657 0 3 1.343 3 3Z" fill="#e07a5f" opacity=".2"/></svg>
+        </span>
+        <span class="logo__text">Wedding <span>Couple</span></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Головне меню">
+        <a href="#about">Про нас</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#schedule">Програма</a>
+        <a href="#location">Локація</a>
+        <a href="#contact">Контакти</a>
+        <a href="#" class="btn btn--primary" data-open-modal="rsvp">RSVP</a>
+      </nav>
+
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mobile-panel" aria-label="Відкрити меню">
+        <span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+
+    <div class="mobile-panel" id="mobile-panel" hidden>
+      <div class="container">
+        <a href="#about" class="js-link">Про нас</a>
+        <a href="#gallery" class="js-link">Галерея</a>
+        <a href="#schedule" class="js-link">Програма</a>
+        <a href="#location" class="js-link">Локація</a>
+        <a href="#contact" class="js-link">Контакти</a>
+        <a href="#" class="cta js-open" data-open-modal="rsvp">Підтвердити участь (RSVP)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home" aria-label="Головний банер">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="hero__card">
+        <div class="eyebrow">Великий день</div>
+        <h1 class="hero__title">Anna & Mark</h1>
+        <div class="hero__meta">12 жовтня 2025 • Львів, Україна</div>
+        <div class="hero__ctas">
+          <a href="#about" class="btn" data-scroll>Дізнатися більше</a>
+          <button class="btn btn--primary js-open" data-open-modal="rsvp">Підтвердити участь</button>
+        </div>
+        <div class="hero__avatar-wrap" aria-label="Пара">
+          <div class="avatar"><img alt="Анна" src="https://images.unsplash.com/photo-1619479034970-97f233a36c5d?q=80&w=400&auto=format&fit=crop"/></div>
+          <div class="avatar"><img alt="Марк" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      Прогорніть вниз
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="#333" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about" id="about">
+    <div class="container">
+      <h2 class="section-title">Про нас</h2>
+      <p class="section-lead">Ми познайомилися у 2018 році на каві з друзями та відтоді ділимо кожну пригоду разом. Будемо раді розділити ще одну — день нашого весілля — з вами.</p>
+
+      <div class="about-grid">
+        <article class="card">
+          <img class="card__media" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" alt="Анна" />
+          <div class="card__body">
+            <span class="chip">Наречена</span>
+            <h3>Анна</h3>
+            <p>Любить подорожі, фотографію та ванільні круасани. Найкраще почувається серед близьких людей і теплих розмов.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img class="card__media" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1200&auto=format&fit=crop" alt="Марк" />
+          <div class="card__body">
+            <span class="chip">Наречений</span>
+            <h3>Марк</h3>
+            <p>Прихильник гітари, довгих прогулянок і фільмів Нолана. Завжди усміхнений і готовий підтримати.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img class="card__media" src="https://images.unsplash.com/photo-1514558427911-2a7b0bde0a3b?q=80&w=1200&auto=format&fit=crop" alt="Наша історія" />
+          <div class="card__body">
+            <span class="chip">Історія</span>
+            <h3>Наша історія</h3>
+            <p>Випадкова зустріч переросла у справжнє кохання. Тепер ми готові сказати «так» при вас — найрідніших.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Галерея</h2>
+      <p class="section-lead">Кілька моментів, що гріють серце.</p>
+
+      <div class="gallery-grid">
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=600&auto=format&fit=crop" alt="Фото 1"/></a>
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop" alt="Фото 2"/></a>
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1519741497678-5f6b2c2b39ba?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1519741497678-5f6b2c2b39ba?q=80&w=600&auto=format&fit=crop" alt="Фото 3"/></a>
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1519741497664-80adb0478a3f?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1519741497664-80adb0478a3f?q=80&w=600&auto=format&fit=crop" alt="Фото 4"/></a>
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1519741497651-60f2f40a0a38?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1519741497651-60f2f40a0a38?q=80&w=600&auto=format&fit=crop" alt="Фото 5"/></a>
+        <a href="#" class="js-lightbox" data-img="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=1600&auto=format&fit=crop"><img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=600&auto=format&fit=crop" alt="Фото 6"/></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCHEDULE ===================== -->
+  <section id="schedule">
+    <div class="container">
+      <h2 class="section-title">Програма дня</h2>
+      <p class="section-lead">Невеликий таймлайн, щоб було зручно планувати день.</p>
+
+      <div class="timeline">
+        <div class="step">
+          <div class="step__icon" aria-hidden="true">⛪</div>
+          <div>
+            <div class="step__time">14:00</div>
+            <div class="step__title">Церемонія</div>
+            <div class="step__desc">У дворі ресторану «Villa Park». Просимо прибути на 10–15 хв раніше.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__icon" aria-hidden="true">📸</div>
+          <div>
+            <div class="step__time">15:30</div>
+            <div class="step__title">Фотосесія</div>
+            <div class="step__desc">Загальні фото з гостями, потім — прогулянка у парку.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__icon" aria-hidden="true">🍽️</div>
+          <div>
+            <div class="step__time">17:00</div>
+            <div class="step__title">Вечеря</div>
+            <div class="step__desc">Святковий стіл і тост від батьків.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__icon" aria-hidden="true">💃</div>
+          <div>
+            <div class="step__time">19:00</div>
+            <div class="step__title">Танці</div>
+            <div class="step__desc">DJ, перший танець і багато музики до півночі.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__ctas" style="margin-top:22px">
+        <a href="#" class="btn btn--primary js-open" data-open-modal="rsvp">Підтвердити участь</a>
+        <a class="btn" href="#location" data-scroll>Як доїхати?</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LOCATION ===================== -->
+  <section id="location" class="location">
+    <div class="container">
+      <h2 class="section-title">Локація</h2>
+      <p class="section-lead">Ресторан «Villa Park», вул. Зелена, 21, Львів. Паркування доступне поруч.</p>
+      <iframe class="map" title="Google Map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2563.7391482452106!2d24.031111!3d49.842957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473add6815555555%3ARestaurant!2sLviv!5e0!3m2!1suk!2sua!4v1681234567890"></iframe>
+      <div class="hero__ctas" style="margin-top:16px">
+        <a class="btn" href="https://maps.google.com/?q=Lviv" target="_blank" rel="noopener">Відкрити у Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT / GIFTS ===================== -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Контакти & Подарунки</h2>
+      <p class="section-lead">Є питання щодо дрес-коду або проживання? Звʼяжіться з нашими помічниками — вони радо підкажуть.</p>
+
+      <div class="about-grid">
+        <article class="card">
+          <div class="card__body">
+            <span class="chip">Контакти</span>
+            <h3>Організатор</h3>
+            <p>Марія: <a href="tel:+380987654321">+380 98 765 43 21</a><br/>Email: <a href="mailto:wedding@example.com">wedding@example.com</a></p>
+            <a class="btn" href="tel:+380987654321">Зателефонувати</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__body">
+            <span class="chip">Подарунки</span>
+            <h3>Найкращий подарунок — ви</h3>
+            <p>Якщо бажаєте, можете подарувати щось символічне або конверт. Будь-які квіти — у вигляді книго (донату) на притулок.</p>
+            <a class="btn" href="#" aria-disabled="true">Список побажань (скоро)</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__body">
+            <span class="chip">Дрес-код</span>
+            <h3>Пастельні відтінки</h3>
+            <p>Просимо обрати пастельні кольори — бежевий, пудровий, світло-блакитний. Комфорт понад усе.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a class="logo" href="#home">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span class="logo__text">Wedding <span>Couple</span></span>
+        </a>
+        <p style="margin:8px 0 0; color:#dcd2ca">З любовʼю, 2025 © Anna & Mark</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навігація</h4>
+        <nav class="footer-nav">
+          <a href="#about">Про нас</a><br/>
+          <a href="#gallery">Галерея</a><br/>
+          <a href="#schedule">Програма</a><br/>
+          <a href="#location">Локація</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Ми в соцмережах</h4>
+        <div class="socials">
+          <a href="#" aria-label="Instagram" title="Instagram">&#x1F4F7;</a>
+          <a href="#" aria-label="Facebook" title="Facebook">f</a>
+          <a href="#" aria-label="YouTube" title="YouTube">▶</a>
+        </div>
+        <p class="policy">Натискаючи «RSVP», ви погоджуєтесь із обробкою персональних даних лише для організації події.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <a class="to-top" id="toTop" href="#top" aria-label="До гори">↑</a>
+
+  <!-- ===================== MODALS ===================== -->
+  <dialog id="modal-rsvp" aria-labelledby="rsvp-title">
+    <form method="dialog" id="rsvp-form" style="min-width:min(92vw,520px)" novalidate>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding: 12px 12px 0 12px">
+        <h3 id="rsvp-title" style="margin:0; font-family:'Playfair Display', serif; font-size:22px">Підтвердження участі (RSVP)</h3>
+        <button value="cancel" aria-label="Закрити" style="border:none; background:#fff; width:36px; height:36px; border-radius:10px; box-shadow: var(--shadow);">✕</button>
+      </div>
+      <div style="padding: 16px 12px 12px 12px; display:grid; gap:12px">
+        <label>Імʼя та прізвище<br/>
+          <input required name="name" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ddd" placeholder="Напр.: Олена Іваненко"/>
+        </label>
+        <label>Ел. пошта<br/>
+          <input type="email" name="email" required style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ddd" placeholder="you@mail.com"/>
+        </label>
+        <label>Кількість гостей<br/>
+          <select name="guests" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ddd">
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+        </label>
+        <label>Коментар / алергії<br/>
+          <textarea name="note" rows="3" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ddd" placeholder="Напишіть, якщо є побажання"></textarea>
+        </label>
+        <button class="btn btn--primary" value="submit" style="justify-content:center">Надіслати</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="modal-lightbox" style="padding:0; border:none; background:transparent">
+    <img id="lightbox-img" alt="Перегляд" style="max-width: 92vw; max-height: 86vh; border-radius: 16px; box-shadow: var(--shadow)"/>
+  </dialog>
+
+  <script>
+    // Helper: smooth scroll with header offset
+    const header = document.querySelector('.site-header');
+    const scrollWithOffset = (hash) => {
+      const el = document.querySelector(hash);
+      if(!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY - header.offsetHeight + 6;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    };
+
+    // Burger + mobile panel
+    const burger = document.getElementById('burger');
+    const panel = document.getElementById('mobile-panel');
+    const togglePanel = (force) => {
+      const expanded = force ?? burger.getAttribute('aria-expanded') !== 'true';
+      burger.setAttribute('aria-expanded', expanded);
+      panel.toggleAttribute('hidden', !expanded);
+      panel.classList.toggle('open', expanded);
+      document.body.style.overflow = expanded ? 'hidden' : '';
+    };
+    burger.addEventListener('click', () => togglePanel());
+    panel.addEventListener('click', (e)=>{ if(e.target.matches('a.js-link')) togglePanel(false); });
+
+    // Smooth scroll for all in-page links
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('a[data-scroll], .js-link');
+      if(a && a.getAttribute('href')?.startsWith('#')){
+        e.preventDefault(); scrollWithOffset(a.getAttribute('href')); }
+    });
+
+    // Back to top
+    const toTop = document.getElementById('toTop');
+    const toggleTop = () => toTop.classList.toggle('show', window.scrollY > 700);
+    window.addEventListener('scroll', toggleTop); toggleTop();
+
+    // RSVP modal
+    const rsvpDialog = document.getElementById('modal-rsvp');
+    document.addEventListener('click', (e)=>{
+      const openBtn = e.target.closest('.js-open[data-open-modal="rsvp"]');
+      if(openBtn){ e.preventDefault(); rsvpDialog.showModal(); }
+    });
+    rsvpDialog.addEventListener('close', ()=>{ document.body.style.overflow=''; });
+
+    document.getElementById('rsvp-form').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      // Simple validation
+      if(!fd.get('name') || !fd.get('email')) return alert('Будь ласка, заповніть імʼя та ел. пошту.');
+      rsvpDialog.close();
+      // Tiny toast
+      const toast = document.createElement('div');
+      toast.textContent = 'Дякуємо! Ми отримали вашу відповідь.';
+      Object.assign(toast.style, {position:'fixed', inset:'auto 16px 16px auto', background:'#1f1f1f', color:'#fff', padding:'12px 14px', borderRadius:'12px', boxShadow:'var(--shadow)', zIndex:60});
+      document.body.appendChild(toast);
+      setTimeout(()=> toast.remove(), 3200);
+    });
+
+    // Lightbox for gallery
+    const lightbox = document.getElementById('modal-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    document.addEventListener('click', (e)=>{
+      const link = e.target.closest('a.js-lightbox');
+      if(!link) return;
+      e.preventDefault();
+      lightboxImg.src = link.dataset.img || link.href;
+      lightbox.showModal();
+    });
+    lightbox.addEventListener('click', ()=> lightbox.close());
+
+    // Close mobile panel on resize to desktop
+    const mq = window.matchMedia('(min-width: 769px)');
+    mq.addEventListener('change', (e)=>{ if(e.matches) togglePanel(false); });
+  </script>
+</body>
+</html>
